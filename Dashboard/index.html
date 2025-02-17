@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crane Predictive Maintenance Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Crane Predictive Maintenance Dashboard</h1>
+            <p>Real-time monitoring and predictive analytics</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    Overall Health Score
+                </h3>
+                <div class="metric-value value-success">87%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    Brake Wear
+                </h3>
+                <div class="metric-value value-warning">72%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 21v-7m0-4V3m16 18v-7m0-4V3M12 21v-4m0-4V3"/>
+                    </svg>
+                    Cable Tension
+                </h3>
+                <div class="metric-value value-danger">65%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M2 12h20"/>
+                    </svg>
+                    Load Capacity
+                </h3>
+                <div class="metric-value value-primary">92%</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <h2>Performance Trends</h2>
+                <div class="chart-controls">
+                    <div class="chart-size-control">
+                        <label for="chartSize">Chart Size:</label>
+                        <select id="chartSize">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="chartWrapper" class="chart-wrapper chart-size-medium">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+
+        <div class="alerts-container">
+            <h2>Active Alerts</h2>
+            <div class="alert alert-high">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <div class="alert-content">
+                    <h4>Critical: Cable Tension Low</h4>
+                    <p>Main cable tension below safe threshold. Schedule replacement within 48 hours.</p>
+                </div>
+            </div>
+            
+            <div class="alert alert-medium">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <div class="alert-content">
+                    <h4>Warning: Brake Wear</h4>
+                    <p>Brake system showing increased wear. Schedule maintenance within 2 weeks.</p>
+                </div>
+            </div>
+            
+            <div class="alert alert-low">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <div class="alert-content">
+                    <h4>Scheduled Maintenance</h4>
+                    <p>Regular inspection due in 5 days.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize performance chart
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+                datasets: [
+                    {
+                        label: 'Load Capacity',
+                        data: [75, 85, 90, 78, 88, 84, 92],
+                        borderColor: '#3B82F6',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: 'Brake Wear',
+                        data: [82, 81, 79, 77, 75, 73, 71],
+                        borderColor: '#F59E0B',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: 'Cable Tension',
+                        data: [90, 88, 85, 83, 80, 78, 75],
+                        borderColor: '#EF4444',
+                        tension: 0.4,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 60,
+                        max: 100,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+               // Chart size control
+        const chartWrapper = document.getElementById('chartWrapper');
+        const chartSizeSelect = document.getElementById('chartSize');
+
+        chartSizeSelect.addEventListener('change', (e) => {
+            // Remove all size classes
+            chartWrapper.classList.remove('chart-size-small', 'chart-size-medium', 'chart-size-large');
+            // Add selected size class
+            chartWrapper.classList.add(`chart-size-${e.target.value}`);
+            // Update chart
+            performanceChart.resize();
+        });
+
+        
+        // Simulate real-time updates
+        setInterval(() => {
+            const datasets = performanceChart.data.datasets;
+            datasets.forEach(dataset => {
+                dataset.data = dataset.data.slice(1);
+                const lastValue = dataset.data[dataset.data.length - 1];
+                const newValue = Math.max(60, Math.min(100, lastValue + (Math.random() - 0.5) * 5));
+                dataset.data.push(newValue);
+            });
+            performanceChart.update();
+        }, 5000);
+    </script>
+</body>
+</html>
